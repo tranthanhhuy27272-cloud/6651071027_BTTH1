@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop Liên Quân | ShopHuyGamer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    body {
+      background: #0e1120;
+      color: #f4f5fb;
+    }
+    .detail-hero {
+      padding: 80px 0 30px;
+      background: radial-gradient(circle at top, rgba(167,139,250,.12), transparent 40%), var(--bg);
+    }
+    .detail-hero h1 {
+      margin: 16px 0 12px;
+      font-size: clamp(35px, 5vw, 56px);
+      letter-spacing: -2px;
+    }
+    .detail-hero p {
+      max-width: 600px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      padding: 24px 0 80px;
+    }
+    .detail-card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .detail-thumb {
+      position: relative;
+      height: 220px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .detail-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(17,18,30,.08), rgba(17,18,30,.65));
+    }
+    .thumb-lq { background-image: url('../img/1793084653136_51851935616029607_731309480637515577_3e7be633d25a09f6c40ad1c09ed2b585.jpg'); }
+    .detail-tag {
+      position: absolute;
+      z-index: 1;
+      top: 18px;
+      left: 18px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(10,12,25,.45);
+      border: 1px solid rgba(255,255,255,.15);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    .detail-body {
+      padding: 22px 22px 20px;
+    }
+    .detail-body h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      letter-spacing: -.7px;
+    }
+    .detail-body ul {
+      margin: 0 0 18px;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 2;
+    }
+    .detail-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .detail-price {
+      color: var(--accent);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -.6px;
+    }
+    .detail-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .buy-button, .gallery-button {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .buy-button {
+      background: var(--accent);
+      color: #17200f;
+    }
+    .gallery-button {
+      background: rgba(167,139,250,.15);
+      border: 1px solid rgba(167,139,250,.35);
+      color: #f4f5fb;
+    }
+    .gallery-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      z-index: 1000;
+      padding: 20px;
+      background: rgba(6, 8, 16, 0.8);
+      backdrop-filter: blur(10px);
+    }
+    .gallery-modal.open {
+      display: grid;
+    }
+    .gallery-panel {
+      width: min(980px, 100%);
+      max-height: 88vh;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .gallery-header h3 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -.6px;
+    }
+    .close-gallery {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text);
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #0f1324;
+      min-height: 180px;
+    }
+    .gallery-item img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .2s ease;
+    }
+    .gallery-item img:hover {
+      transform: scale(1.03);
+    }
+    @media (max-width: 720px) {
+      .detail-grid { grid-template-columns: 1fr; }
+      .detail-hero { padding-top: 60px; }
+      .detail-meta { flex-direction: column; align-items: flex-start; }
+      .detail-actions { width: 100%; justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body data-page="detail">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../index.html" aria-label="Về trang chủ">
+        <span class="brand-mark">H<span>G</span></span>
+        <span class="brand-copy">ShopHuy<span>Gamer</span><small>GAME ACCOUNT STORE</small></span>
+      </a>
+      <a class="button button-outline" href="../index.html">← Về trang chủ</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="detail-hero">
+      <div class="container">
+        <div class="eyebrow"><span class="eyebrow-icon">✦</span> SHOP LIÊN QUÂN</div>
+        <h1>Acc Liên Quân đa dạng, tướng đẹp.</h1>
+        <p>Shop uy tín với những tài khoản có nhiều tướng, trang phục hợp thời, dễ chọn theo nhu cầu và phong cách chơi của bạn.</p>
+      </div>
+    </section>
+
+    <section class="container detail-grid">
+      <article class="detail-card">
+        <div class="detail-thumb thumb-lq"><span class="detail-tag">MỚI</span></div>
+        <div class="detail-body">
+          <h3>Acc Liên Quân nhiều skin</h3>
+          <ul>
+            <li>Danh sách tướng đa dạng, dễ chơi</li>
+            <li>Trang phục đẹp, phong cách rõ</li>
+            <li>Phù hợp người mới và người chơi lâu năm</li>
+          </ul>
+          <div class="detail-meta">
+            <span class="detail-price">5.000.000đ</span>
+            <div class="detail-actions">
+              <button class="gallery-button" type="button" data-gallery="lq-nhieu-skin">Xem ảnh</button>
+              <button class="buy-button detail-buy-button" type="button" data-product="Acc Liên Quân nhiều skin" data-price="299000">Thêm vào giỏ hàng</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="detail-card">
+        <div class="detail-thumb thumb-lq"><span class="detail-tag">HOT</span></div>
+        <div class="detail-body">
+          <h3>Acc Liên Quân rank cao</h3>
+          <ul>
+            <li>Tướng chủ lực, đội hình dễ dùng</li>
+            <li>Phù hợp chiến đấu nhanh, nhiều trận</li>
+            <li>Hỗ trợ tư vấn chọn tướng trước khi mua</li>
+          </ul>
+          <div class="detail-meta">
+            <span class="detail-price">749.000đ</span>
+            <div class="detail-actions">
+              <button class="gallery-button" type="button" data-gallery="lq-rank-cao">Xem ảnh</button>
+              <button class="buy-button detail-buy-button" type="button" data-product="Acc Liên Quân rank cao" data-price="429000">Thêm vào giỏ hàng</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="detail-card">
+        <div class="detail-thumb thumb-lq"><span class="detail-tag">TÂN THỦ</span></div>
+        <div class="detail-body">
+          <h3>Acc Liên Quân tân thủ</h3>
+          <ul>
+            <li>Phù hợp người mới bắt đầu</li>
+            <li>Đã có tướng và thao tác cơ bản</li>
+            <li>Rõ ràng và dễ xác minh trước khi mua</li>
+          </ul>
+          <div class="detail-meta">
+            <span class="detail-price">219.000đ</span>
+            <div class="detail-actions">
+              <button class="gallery-button" type="button" data-gallery="lq-tan-thu">Xem ảnh</button>
+              <button class="buy-button detail-buy-button" type="button" data-product="Acc Liên Quân tân thủ" data-price="219000">Thêm vào giỏ hàng</button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div class="gallery-modal" id="galleryModal" aria-modal="true" role="dialog">
+    <div class="gallery-panel">
+      <div class="gallery-header">
+        <h3 id="galleryTitle">Ảnh acc</h3>
+        <button class="close-gallery" type="button" aria-label="Đóng ảnh">×</button>
+      </div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+  </div>
+
+  <script src="../assets/js/script.js"></script>
+  <script>
+    const galleryData = {
+      'lq-nhieu-skin': {
+        title: 'Ảnh acc Liên Quân nhiều skin',
+        images: [
+          '../img/1793091176979_51851935616029607_731309480637515577_868869cc42b4eda9a9268012c43ed905.jpg',
+          '../img/1793091177065_51851935616029607_731309480637515577_d41c962e3afff0e68872f14debfe7e52.jpg',
+          '../img/1793091177248_51851935616029607_731309480637515577_3a3245c87a3fc1029e2877ee2104a41c.jpg',
+          '../img/1793091177369_51851935616029607_731309480637515577_5bb77332daafd12790c77bf8feb2f9f9.jpg',
+          '../img/1793091177564_51851935616029607_731309480637515577_f10de470f31d8d8245dedb4e776b2f87.jpg',
+          '../img/1793091177685_51851935616029607_731309480637515577_b156d79b978896bbe211275283c07ead.jpg'
+        ]
+      },
+      'lq-rank-cao': {
+        title: 'Ảnh acc Liên Quân rank cao',
+        images: [
+          '../img/1793091169305_51851935616029607_731309480637515577_b3ac69c80477b611d808c31c661072b0.jpg',
+          '../img/1793091169392_51851935616029607_731309480637515577_a4899749b675058b9f75598cb770a152.jpg',
+          '../img/1793091169537_51851935616029607_731309480637515577_59cd893d62c003364b65a667b2ffb6fc.jpg',
+          '../img/1793091169728_51851935616029607_731309480637515577_46f8ea3669c4bfb9e1320818419c372c.jpg',
+          '../img/1793091169860_51851935616029607_731309480637515577_687b350214a201429d8131754fa8b821.jpg',
+          '../img/1793091170042_51851935616029607_731309480637515577_dd8d220de4ce3fa3c2b3b93e9577db7c.jpg'
+        ]
+      },
+      'lq-tan-thu': {
+        title: 'Ảnh acc Liên Quân tân thủ',
+        images: [
+          '../img/1793091169305_51851935616029607_731309480637515577_b3ac69c80477b611d808c31c661072b0.jpg',
+          '../img/1793091177685_51851935616029607_731309480637515577_b156d79b978896bbe211275283c07ead.jpg',
+          '../img/1793091177065_51851935616029607_731309480637515577_d41c962e3afff0e68872f14debfe7e52.jpg',
+          '../img/1793091169728_51851935616029607_731309480637515577_46f8ea3669c4bfb9e1320818419c372c.jpg',
+          '../img/1793091169728_51851935616029607_731309480637515577_46f8ea3669c4bfb9e1320818419c372c.jpg',
+          '../img/1793091170042_51851935616029607_731309480637515577_dd8d220de4ce3fa3c2b3b93e9577db7c.jpg'
+        ]
+      }
+    };
+
+    const galleryModal = document.getElementById('galleryModal');
+    const galleryGrid = document.getElementById('galleryGrid');
+    const galleryTitle = document.getElementById('galleryTitle');
+    const galleryButtons = document.querySelectorAll('.gallery-button');
+    const closeGalleryButton = document.querySelector('.close-gallery');
+
+    function renderGallery(galleryKey) {
+      const config = galleryData[galleryKey];
+      if (!config) return;
+
+      galleryTitle.textContent = config.title;
+      galleryGrid.innerHTML = config.images.map(src => `
+        <div class="gallery-item">
+          <img src="${src}" alt="${config.title}">
+        </div>
+      `).join('');
+    }
+
+    function openGallery(galleryKey) {
+      renderGallery(galleryKey);
+      galleryModal.classList.add('open');
+    }
+
+    function closeGallery() {
+      galleryModal.classList.remove('open');
+    }
+
+    galleryButtons.forEach(button => {
+      button.addEventListener('click', () => openGallery(button.dataset.gallery));
+    });
+
+    closeGalleryButton?.addEventListener('click', closeGallery);
+    galleryModal?.addEventListener('click', (event) => {
+      if (event.target === galleryModal) closeGallery();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && galleryModal?.classList.contains('open')) {
+        closeGallery();
+      }
+    });
+  </script>
+</body>
+</html>

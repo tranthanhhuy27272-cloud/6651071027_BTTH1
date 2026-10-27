@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop Free Fire | ShopHuyGamer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    body {
+      background: #0e1120;
+      color: #f4f5fb;
+    }
+    .detail-hero {
+      padding: 80px 0 30px;
+      background: radial-gradient(circle at top, rgba(183,255,85,.12), transparent 40%), var(--bg);
+    }
+    .detail-hero h1 {
+      margin: 16px 0 12px;
+      font-size: clamp(35px, 5vw, 56px);
+      letter-spacing: -2px;
+    }
+    .detail-hero p {
+      max-width: 600px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      padding: 24px 0 80px;
+    }
+    .detail-card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .detail-thumb {
+      position: relative;
+      height: 220px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .detail-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(17,18,30,.08), rgba(17,18,30,.65));
+    }
+    .thumb-fire { background-image: url('../img/1793084653047_51851935616029607_731309480637515577_eeb5599a283398c248067335948eb0dc.jpg'); }
+    .detail-tag {
+      position: absolute;
+      z-index: 1;
+      top: 18px;
+      left: 18px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(10,12,25,.45);
+      border: 1px solid rgba(255,255,255,.15);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    .detail-body {
+      padding: 22px 22px 20px;
+    }
+    .detail-body h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      letter-spacing: -.7px;
+    }
+    .detail-body ul {
+      margin: 0 0 18px;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 2;
+    }
+    .detail-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .detail-price {
+      color: var(--accent);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -.6px;
+    }
+    .detail-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .buy-button, .gallery-button {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .buy-button {
+      background: var(--accent);
+      color: #17200f;
+    }
+    .gallery-button {
+      background: rgba(167,139,250,.15);
+      border: 1px solid rgba(167,139,250,.35);
+      color: #f4f5fb;
+    }
+    .gallery-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      z-index: 1000;
+      padding: 20px;
+      background: rgba(6, 8, 16, 0.8);
+      backdrop-filter: blur(10px);
+    }
+    .gallery-modal.open {
+      display: grid;
+    }
+    .gallery-panel {
+      width: min(980px, 100%);
+      max-height: 88vh;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .gallery-header h3 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -.6px;
+    }
+    .close-gallery {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text);
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #0f1324;
+      min-height: 180px;
+    }
+    .gallery-item img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .2s ease;
+    }
+    .gallery-item img:hover {
+      transform: scale(1.03);
+    }
+    @media (max-width: 720px) {
+      .detail-grid { grid-template-columns: 1fr; }
+      .detail-hero { padding-top: 60px; }
+      .detail-meta { flex-direction: column; align-items: flex-start; }
+      .detail-actions { width: 100%; justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body data-page="detail">
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../index.html" aria-label="Về trang chủ">
+        <span class="brand-mark">H<span>G</span></span>
+        <span class="brand-copy">ShopHuy<span>Gamer</span><small>GAME ACCOUNT STORE</small></span>
+      </a>
+      <a class="button button-outline" href="../index.html">← Về trang chủ</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="detail-hero">
+      <div class="container">
+        <div class="eyebrow"><span class="eyebrow-icon">✦</span> SHOP FREE FIRE</div>
+        <h1>Acc Free Fire chất lượng, giá rõ ràng.</h1>
+        <p>Chọn tài khoản phù hợp với nhu cầu chơi, thiết lập skin, rank và ngân sách. Mỗi acc được cập nhật thông tin rõ ràng trước khi giao dịch.</p>
+      </div>
+    </section>
+
+    <section class="container detail-grid">
+      <article class="detail-card">
+        <div class="detail-thumb thumb-fire"><span class="detail-tag">BÁN CHẠY</span></div>
+        <div class="detail-body">
+          <h3>Acc Free Fire nhiều skin</h3>
+          <ul>
+            <li>Skin nổi bật, full item đẹp</li>
+            <li>Rank ổn định, chơi được ngay</li>
+            <li>Thông tin tài khoản rõ ràng</li>
+          </ul>
+          <div class="detail-meta">
+            <span class="detail-price">4.000.000đ</span>
+            <div class="detail-actions">
+              <button class="gallery-button" type="button" data-gallery="ff-nhieu-skin">Xem ảnh</button>
+              <button class="buy-button detail-buy-button" type="button" data-product="Acc Free Fire nhiều skin" data-price="199000">Thêm vào giỏ hàng</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="detail-card">
+        <div class="detail-thumb thumb-fire"><span class="detail-tag">HOT</span></div>
+        <div class="detail-body">
+          <h3>Acc Free Fire rank cao</h3>
+          <ul>
+            <li>Đã có rank đẹp, đủ vũ khí</li>
+            <li>Phù hợp chơi nhanh, lên cấp</li>
+            <li>Giao dịch rõ ràng, hỗ trợ tư vấn</li>
+          </ul>
+          <div class="detail-meta">
+            <span class="detail-price">999.000đ</span>
+            <div class="detail-actions">
+              <button class="gallery-button" type="button" data-gallery="ff-rank-cao">Xem ảnh</button>
+              <button class="buy-button detail-buy-button" type="button" data-product="Acc Free Fire rank cao" data-price="349000">Thêm vào giỏ hàng</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="detail-card">
+        <div class="detail-thumb thumb-fire"><span class="detail-tag">TÂN THỦ</span></div>
+        <div class="detail-body">
+          <h3>Acc Free Fire tân thủ</h3>
+          <ul>
+            <li>Dễ làm quen, chơi lại gọn</li>
+            <li>Phù hợp người mới hoặc muốn luyện tập</li>
+            <li>Rõ ràng, hỗ trợ tư vấn trước giao dịch</li>
+          </ul>
+          <div class="detail-meta">
+            <span class="detail-price">100.000đ</span>
+            <div class="detail-actions">
+              <button class="gallery-button" type="button" data-gallery="ff-tan-thu">Xem ảnh</button>
+              <button class="buy-button detail-buy-button" type="button" data-product="Acc Free Fire tân thủ" data-price="179000">Thêm vào giỏ hàng</button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div class="gallery-modal" id="galleryModal" aria-modal="true" role="dialog">
+    <div class="gallery-panel">
+      <div class="gallery-header">
+        <h3 id="galleryTitle">Ảnh acc</h3>
+        <button class="close-gallery" type="button" aria-label="Đóng ảnh">×</button>
+      </div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+  </div>
+
+  <script src="../assets/js/script.js"></script>
+  <script>
+    const galleryData = {
+      'ff-nhieu-skin': {
+        title: 'Ảnh acc Free Fire nhiều skin',
+        images: [
+          '../img/1793089524502_51851935616029607_731309480637515577_3f8c3897cd48f97c78ab2fdc0100ed93.jpg',
+          '../img/1793089524502_51851935616029607_731309480637515577_3f8c3897cd48f97c78ab2fdc0100ed93.jpg',
+          '../img/1793089524770_51851935616029607_731309480637515577_832a3184c8087623b2fcd40fe75e1bb8.jpg',
+          '../img/1793089525265_51851935616029607_731309480637515577_9a77f7c0de9838757d57edc03f609a0f.jpg',
+          '../img/1793089525591_51851935616029607_731309480637515577_42f6056b6cf12a2ce52285e026485f4d.jpg',
+          '../img/1793089525708_51851935616029607_731309480637515577_15973f44d8d492920d89e9616fee822f.jpg',
+          '../img/1793089525413_51851935616029607_731309480637515577_d42da0ae726e006f1b95d5945c84b150.jpg'
+        ]
+      },
+      'ff-rank-cao': {
+        title: 'Ảnh acc Free Fire rank cao',
+        images: [
+          '../img/1793084132860_51851935616029607_731309480637515577_67315c6211d2ad8ed289a03fb310ec3b.jpg',
+          '../img/1793084132985_51851935616029607_731309480637515577_7cba780b14c88ed718f814d2a2402c3d.jpg',
+          '../img/1793084133191_51851935616029607_731309480637515577_ba4b9269245cf0e514dbf6dc7dfae7a4.jpg',
+          '../img/1793084133356_51851935616029607_731309480637515577_721196b519e7801bac68662ae6ea663a.jpg',
+          '../img/1793084133570_51851935616029607_731309480637515577_26f4ee05a42027193d5ace05c0e7086d.jpg',
+          '../img/1793084133781_51851935616029607_731309480637515577_b054d797dfeccdd4ebb0166762bde81f.jpg',
+          '../img/1793084133931_51851935616029607_731309480637515577_fadedd493ce26ecfa1841d20acc2c609.jpg',
+          '../img/1793084134118_51851935616029607_731309480637515577_2cd2b310e998d3c994e35cf0583ee71b.jpg',
+          '../img/1793084134264_51851935616029607_731309480637515577_26335b3609964a0c6cc95eae68870ca5.jpg',
+          '../img/1793084134434_51851935616029607_731309480637515577_c39ed3bded5456675f7281976b99e3a8.jpg'
+        ]
+      },
+      'ff-tan-thu': {
+        title: 'Ảnh acc Free Fire tân thủ',
+        images: [
+          '../img/1793089213254_4391442974968325870_4391442974968325870_ff6d375f418062dd4f1a50bf9885e644.jpg',
+          '../img/1793089218605_4391442974968325870_4391442974968325870_d0b6d39b2004f68143d4407b5d3965f0.jpg',
+          '../img/1793089218682_4391442974968325870_4391442974968325870_b0d954dc3ca186f49400989a994a2dda.jpg',
+          '../img/1793089218758_4391442974968325870_4391442974968325870_ef392bdd15d7b6c72329a3bc1e61033e.jpg',
+          '../img/1793089218891_4391442974968325870_4391442974968325870_b37e0c35a0a11fdb3adad48d48d971f0.jpg',
+          '../img/1793089218996_4391442974968325870_4391442974968325870_655b79c93ab942464aa9c35c6d9a8a8b.jpg'
+        ]
+      }
+    };
+
+    const galleryModal = document.getElementById('galleryModal');
+    const galleryGrid = document.getElementById('galleryGrid');
+    const galleryTitle = document.getElementById('galleryTitle');
+    const galleryButtons = document.querySelectorAll('.gallery-button');
+    const closeGalleryButton = document.querySelector('.close-gallery');
+
+    function renderGallery(galleryKey) {
+      const config = galleryData[galleryKey];
+      if (!config) return;
+
+      galleryTitle.textContent = config.title;
+      galleryGrid.innerHTML = config.images.map(src => `
+        <div class="gallery-item">
+          <img src="${src}" alt="${config.title}">
+        </div>
+      `).join('');
+    }
+
+    function openGallery(galleryKey) {
+      renderGallery(galleryKey);
+      galleryModal.classList.add('open');
+    }
+
+    function closeGallery() {
+      galleryModal.classList.remove('open');
+    }
+
+    galleryButtons.forEach(button => {
+      button.addEventListener('click', () => openGallery(button.dataset.gallery));
+    });
+
+    closeGalleryButton?.addEventListener('click', closeGallery);
+    galleryModal?.addEventListener('click', (event) => {
+      if (event.target === galleryModal) closeGallery();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && galleryModal?.classList.contains('open')) {
+        closeGallery();
+      }
+    });
+  </script>
+</body>
+</html>
